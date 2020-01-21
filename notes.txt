@@ -1,0 +1,57 @@
+async function fetchCardContent(page: any) {
+    return page.evaluate(function() {
+        console.log(' page ran ')
+        let cardContent;
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            cardContent = document.getElementsByClassName('property___details');
+          });
+          console.log('cardContent:', cardContent);
+
+        // const cardImg = Array.from(cardContent).map((img) => img.src);
+
+        // return cardImg;
+        return cardContent;
+    });
+}
+
+async function initialSetUp(page: any, browser: any) {
+    await page.click('[id=for-sale-link]');
+    await page.waitFor(5000);
+
+    await page.select('select[id=type]', '2');
+    await page.waitFor(5000);
+
+    await page.type('[id=listprice1', '100000');
+    await page.waitFor(5000);
+
+    await page.type('[id=listprice2', '650000');
+    await page.waitFor(5000);
+
+    await page.keyboard.press('Enter');
+    await page.waitFor(5000);
+
+    
+    await page.screenshot({ path: 'bigOlScreenShot.png' });
+
+    let cardContent;
+    await page.evaluate(function() {
+        console.log(' page ran ')
+
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            cardContent = document.getElementsByClassName('property___details');
+          });
+        //   console.log('cardContent:', cardContent);
+
+        // const cardImg = Array.from(cardContent).map((img) => img.src);
+
+        // return cardImg;
+    });
+    await page.waitFor(5000);
+
+    await browser.close();
+
+    // console.log('fetchedCardContent:', await fetchedCardContent)
+    // return fetchedCardContent;
+}
